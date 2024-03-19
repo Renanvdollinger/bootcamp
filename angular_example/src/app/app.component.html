@@ -1,0 +1,57 @@
+<h2>This is my Website name {{ title }} </h2>
+
+<h2>{{'This is my Website name ' + title }} </h2>
+
+<h3>This is the information regarding a person</h3>
+
+<div *ngIf="person">
+  <p>Custom Person ID: {{person.id}}</p>
+  <p>Custom Person Name: {{person.name}}</p>
+</div>
+
+<p>ID: {{person.id}}</p>
+<p>Name: {{person.name}}</p>
+
+<h3 [style.backgroundColor]="color_yellow">This is my H3 tag</h3>
+<p [style.background-color]="color_yellow">This is my paragraph tag</p>
+<p [style]="styleClass">This is the example of inline style in angular with multiple properities</p>
+
+<ul>
+  <li *ngFor="let person of persons">{{ ' ID: ' + person.id + ' Name: ' + person.name }}</li>
+</ul>
+
+<!-- <button [ngClass]="'class_1, class_2'">Ng Class Example</button>
+<button [ngClass]="['class_1: true', 'class_2: false']">Ng Class Example</button> -->
+
+<!-- Writing/Adding multiple class
+class="btn btn-primary"
+[ngclass]="['btn', 'btn-primary']" -->
+<p [ngClass]="['class_1', 'class_2']">This is my ngExample</p>
+<p [ngClass]="true ? 'class_1' : ''">Conditionally added CSS</p>
+
+<input [(ngModel)]="title">
+
+<input [(ngModel)]="title">
+
+Value: {{ title }}
+
+<app-item [item]="title" [per]="persons"></app-item>
+
+<!--only works in case of string-->
+<!-- Example of interpolation{{}} not working because the value is bloolean-->
+<button disabled="{{isDisabled}}">Interpolation Disable Button Example</button><br>
+
+<!-- Example of Property Binding[]-->
+<button [disabled]="isDisabled">Property Binding Disable Button Example</button><br>
+
+<button (click)="clearImage()">Clear Image</button><br>
+
+<button (click)="showImage()">Show Image</button><br>
+
+<!-- Example of interpolation{{}}-->
+<!-- <img src="{{imageUrl}}" alt="Image Not Found">-->
+
+<!-- Example of Property Binding[]-->
+<img [src]="imageUrl" alt="Image Not Found">
+
+
