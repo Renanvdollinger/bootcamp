@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { ValidatePassword } from './custom-password-validation';
 
 @Component({
   selector: 'app-reactive-forms',
@@ -7,13 +8,32 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrl: './reactive-forms.component.css'
 })
 export class ReactiveFormsComponent {
+  // formBuilder:FormBuilder = inject(FormBuilder); 
 
-  signUpForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    First_name: new FormControl(''),
-    Last_name: new FormControl(''),
-    gender: new FormControl(''),
-  });
+  signUpForm:any;
+
+  constructor(formBuilder: FormBuilder){
+    this.signUpForm = formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), ValidatePassword]],
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      gender: [''],
+    });
+  }
+
+  // signUpForm = new FormGroup({
+  //   email: new FormControl('', [Validators.required, Validators.email]),
+  //   password: new FormControl('', [Validators.required, Validators.minLength(6), ValidatePassword]),
+  //   first_name: new FormControl('', Validators.required),
+  //   last_name: new FormControl('', Validators.required),
+  //   gender: new FormControl(''),
+  // });
+
+  submitForm(){
+    if(this.signUpForm?.valid){
+      console.log('Form Submition, this.signUpForm')
+    }
+  }
 
 }

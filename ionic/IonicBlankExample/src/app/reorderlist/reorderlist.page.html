@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>reorderlist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+
+      <ion-item>
+        <ion-label>Air Plane</ion-label>
+        <ion-reorder slot="end">
+          <ion-icon name="airplane"></ion-icon>
+        </ion-reorder>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Bluetooth</ion-label>
+        <ion-reorder slot="end">
+          <ion-icon name="bluetooth"></ion-icon>
+        </ion-reorder>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>List</ion-label>
+        <ion-reorder slot="end">
+          <ion-icon name="list-circle"></ion-icon>
+        </ion-reorder>
+      </ion-item>
+
+    </ion-reorder-group>
+  </ion-list>
+  <ion-button [routerLink]="['/home']" routerDirection="back">Home</ion-button>
+</ion-content>
