@@ -1,65 +1,68 @@
 const express = require('express');
 const app = express();
 
-const port = process.env.Port || 4000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
 app.use((request, response, next) => {
-  console.log('Running for every request');
-  next();
+    console.log('Running for every request');
+    next();
 });
 
 const customers = [
-  {id:1, name: "Renan"},
-  {id:2, name: "Test"},
-  {id:3, name: "Sam"},
+    {id: 1, name: "Harsh"},
+    {id: 2, name: "Test"},
+    {id: 3, name: "Sam"},
 ];
+
 const user = [
-  {name: "Renan", email: "test@gmail.com", password: "password" },
-  {name: "joao", email: "joao@gmail.com", password: "jao" },
+    { name: "Test", email: "test@gmail.com", password: "password" },    
 ]
 
 app.get('/', (request, response) => {
-  response.send('/customers');
+    response.redirect('/customers');
 });
-
 
 app.get('/customers', (request, response) => {
 
-  if(!customers) response.status(404).send('Customer not found');
-  response.send(customers);
+    if(!customers) response.status(404).send('Customer not found');
+    response.send(customers);
 });
 
-app.get('/customers/:id', (request, response) => {
+//grab a particular customer
 
-  // response.send(request.params.id);
-  // Try to find the customer using find fuction
-  var customer = customers.find(c => c.id == request.params.id);
-  if(!customer) response.status(404).send('Customer not found');
-  response.send(customer);
+app.get('/customers/:id', (request, response) => {
+    
+    // try to find the customer using find function
+    var customer = customers.find(x => x.id == request.params.id);        
+    if(!customer) response.status(404).send('Customer not found');    
+    response.send(customer);
 });
 
 app.post('/customers', (request, response) => {
- if(!request.body.name) response.status(404).send('Please provide a customer name');
+    
+    //validate if the customer has a name
+    if(!request.body.name) response.status(404).send('Please provide a customer name');
 
- var customer = {
-  id: customers.length + 1,
-  name: request.body.name
- }
- customers.push(customer);
- response.send(customer);
+    var customer = {
+        id: customers.length + 1,
+        name: request.body.name
+    }
+    customers.push(customer);
+    response.send(customer);
 });
 
-// Update request
+//update request
 app.put('/customers/:id', (request, response) => {
 
-  // validate if the customer exist
-  var customer = customers.find(x => x.id == request.params.id);
-  if(!customer) response.status(404).send('Customer not found');
-
-  //validate if we got a named to update
-  if(!request.body.name) response.status(404).send('Please provide a customer name');
+    
+    //validate if the customer exist
+    var customer = customers.find(x => x.id == request.params.id);        
+    if(!customer) response.status(404).send('Customer not found');  
+    
+    //validate if we got a name to update
+    if(!request.body.name) response.status(404).send('Please provide a customer name');
 
     //update logic
     customer.name = request.body.name;
@@ -67,69 +70,42 @@ app.put('/customers/:id', (request, response) => {
 });
 
 app.delete('/customers/:id', (request, response) => {
-  //validate if customer exist
-  var customer = customers.find(x => x.id == request.params.id);
-  if(!customer) response.status(404).send('Customer not found');
+    //validate if the customer exist
+    var customer = customers.find(x => x.id == request.params.id);        
+    if(!customer) response.status(404).send('Customer not found');
 
-  var index = customers.indexOf(customer);
-  customers.splice(index,1);
-
-  response.send(customers);
-
+    var index = customers.indexOf(customer);
+    customers.splice(index,1);
+    response.send(customers);
 })
 
-app.post('/resgister', (request, response) => {
-  //email
-  //name
-  //pasword
-  app.get('/users', (request, response) => {
+app.post('/register/', (request, response) => {
+    
+    //email
+    //name
+    //password    
 
-    if(!users) response.status(404).send('User not found');
-    response.send(users);
-  });
-  
-  app.get('/customers/:email', (request, response) => {
-  
-    var user = users.find(c => c.id == request.params.email);
-    if(!user) response.status(404).send('Email not found');
-    response.send(User);
-  });
-
-  app.get('/customers/:password', (request, response) => {
-  
-    var user = users.find(c => c.id == request.params.email);
-    if(!user) response.status(404).send('Password not found');
-    response.send(User);
-  });
-
-  
-  app.post('/customers', (request, response) => {
-   if(!request.body.name) response.status(404).send('Please provide a customer name');
-  
-   var customer = {
-    id: customers.length + 1,
-    name: request.body.name
-   }
-   customers.push(customer);
-   response.send(customer);
-  });
-  
+    //validate if we have all 3 values
+    //use this example and modify it
+    // if(!request.body.name) response.status(404).send('Please provide a customer name');
 
 
-  //validate if we have all 3 value 
-  //use this example and modify it
-  if(!request.body.name.email.password) response.status(404).send('Please provide a customer name');
+    // use this code as a reference code to add your newly register user to user object
+    // var customer = {
+    //     id: customers.length + 1,
+    //     name: request.body.name
+    // }
+    // customers.push(customer);
 
-  //use this code as 
+    response.send(user);
+    // var user_register =
 
-  response.send({name: resquest.body.name}, {email: resquest.body.email}, {password: resquest.body.password});
- response.send(request.body);
-})
+});
 
-app.all('*', (resquest, response) => {
-  response.send("404 Page not Found");
+app.all('*', (request, response) => {
+    response.send("404 Page not found");
 });
 
 app.listen(port, () => {
-  console.log(`Application is running on ${port}`);
+    console.log(`Application is running on ${port}`);
 })
