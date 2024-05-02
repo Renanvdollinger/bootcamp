@@ -5,9 +5,9 @@ const cors = require('cors');
 const app = express();
 
 app.use(function (req, resp, next) {
-  res.setHearder("Access-Control_Allow-Origin", "*");
-  res.setHearder("Access-Control-Allow-Methods", "*");
-  res.setHearder("Access-Control-Allow-Headers", "*");
+  resp.setHeader("Access-Control_Allow-Origin", "*");
+  resp.setHeader("Access-Control-Allow-Methods", "*");
+  resp.setHeader("Access-Control-Allow-Headers", "*");
   next();
 })
 app.use(cors());
@@ -50,16 +50,19 @@ app.post('/employees/', async (request, response) => {
   const connection = await pool.getConnection();
   // const name = request.body.name;
   // const department_id = request.body.department_id;
-  const { name, department_id} = request.body;
+  console.log(request.body)
+  const name = request.body.name;
+  const department = request.body.department;
+  // const { name, department} = request.body;
 
-  if(!name || !department_id) return response.status(500).send('Please provide both name and department_id');
+  if(!name || !department) return response.status(500).send('Please provide both name and department');
  
   try {
       const result = await connection.query(`
-      INSERT INTO robogarden.employees (name, department_id)
-      VALUES( ?, ?)`, [name, department_id]);
+      INSERT INTO robogarden.employees (name, department_name)
+      VALUES( ?, ?)`, [name, department]);
       console.log(result);
-      response.status(200).send(`Rows instered ${result.affectedRows}`);
+      response.status(200).send(JSON.stringify(`Rows instered ${result.affectedRows}`));
   } catch (error) {
       console.log(error);
       response.send(500).send(error);
